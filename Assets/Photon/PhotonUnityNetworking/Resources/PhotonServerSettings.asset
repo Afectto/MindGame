@@ -39,6 +39,22 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - CreateGameZone
+  - RefillGridRPC
+  - UpdateBackgroundRPC
+  - OnPlaceCubeRPC
+  - UpdateTask
+  - ClearMyGridRPC
+  - UpdateTaskRPC
+  - OnGrabCubeRPC
+  - ReleaseFromParent
+  - SetParentOnGrab
+  - ShowText
+  - HideText
+  - HideTextRPC
+  - ChangeActiveRPC
+  - SetIsGrab
+  - SetTaken
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

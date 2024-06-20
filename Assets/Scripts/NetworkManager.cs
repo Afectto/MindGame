@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
@@ -11,15 +12,20 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected to Photon Server");
-        PhotonNetwork.JoinOrCreateRoom("RoomName", new Photon.Realtime.RoomOptions { MaxPlayers = 2 }, null);
+        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 2 }, null);
     }
 
     public override void OnJoinedRoom()
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            // Создание объекта персонажа на хосте
-            GameObject player = PhotonNetwork.Instantiate("PlayerPrefab", new Vector3(0f, 1f, 0f), Quaternion.identity);
+            PhotonNetwork.Instantiate("PlayerPrefab", Vector3.up, Quaternion.identity);
+            PhotonNetwork.Instantiate("GameZone", Vector3.zero, Quaternion.identity);
         }
+        else
+        {
+            PhotonNetwork.Instantiate("PlayerPrefab", Vector3.up, Quaternion.identity);
+        }
+        GameEventManager.Instance.TriggerOnJoinInRoom();
     }
 }
