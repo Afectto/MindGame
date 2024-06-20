@@ -7,7 +7,7 @@ public class GridItemChecker : MonoBehaviour
     private SerializableArray2D<bool> _task;
     private CreateGrid _myGrid;
     private PhotonView _photonView;
-    
+    private Cube[] _allCubs;
     private void Awake()
     {
         _photonView = GetComponent<PhotonView>();
@@ -46,8 +46,11 @@ public class GridItemChecker : MonoBehaviour
 
     private void OnGrabCube(Vector3 obj)
     {
-        GrabCube(obj, false);
-        _photonView.RPC("OnGrabCubeRPC", RpcTarget.OthersBuffered, obj, false);
+        if (!CheckOtherCubeInSlot(obj))
+        {
+            GrabCube(obj, false);
+            _photonView.RPC("OnGrabCubeRPC", RpcTarget.OthersBuffered, obj, false);
+        }
     }
 
     private void GrabCube(Vector3 obj, bool isGrab)
@@ -55,6 +58,36 @@ public class GridItemChecker : MonoBehaviour
         var slot = _myGrid.slotItemGrid.GetGridObject(obj);
         slot?.GetSlot().ChangIdentifier(isGrab);
         CheckToWin();
+    }
+
+    private bool CheckOtherCubeInSlot(Vector3 obj)
+    {
+        var gridObject = _myGrid.slotItemGrid.GetGridObject(obj);
+        var slot = gridObject?.GetSlot();
+        if (_allCubs == null )
+        {
+            _allCubs = FindObjectsOfType<Cube>();
+        }
+        
+        if (slot == null )
+        {
+            return false;
+        }
+        foreach (var cube in _allCubs)
+        {
+            var position = cube.transform.position;
+            if (position != obj)
+            {    
+                var gridObjectByCube = _myGrid.slotItemGrid.GetGridObject(position);
+                var slotByCube = gridObjectByCube?.GetSlot();
+
+                if (slotByCube == slot)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     #endregion
     

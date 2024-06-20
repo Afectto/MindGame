@@ -55,6 +55,7 @@ MonoBehaviour:
   - ChangeActiveRPC
   - SetIsGrab
   - SetTaken
+  - ReleaseIsGrab
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

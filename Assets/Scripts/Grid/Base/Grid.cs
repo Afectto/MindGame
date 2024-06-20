@@ -67,8 +67,7 @@ public class Grid<TGridObject>
         GetXY(worldPosition, out x, out z);
         SetGridObject(x, z, value);
     }
-
-
+    
     public TGridObject GetGridObject(int x, int z)
     {
         if (x >= 0 && z >= 0 && x < _width && z < _height)

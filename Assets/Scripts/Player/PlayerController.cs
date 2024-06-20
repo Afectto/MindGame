@@ -11,8 +11,8 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _photonView = GetComponent<PhotonView>();
-        GameEventManager.Instance.OnChangeCanMove += ChangeCanMove;
         _canMove = true;
+        GameEventManager.Instance.OnChangeCanMove += ChangeCanMove;
     }
     private void ChangeCanMove(bool value)
     {
@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-
     private void OnDestroy()
     {
         GameEventManager.Instance.OnChangeCanMove -= ChangeCanMove;

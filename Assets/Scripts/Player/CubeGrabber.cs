@@ -54,7 +54,7 @@ public class CubeGrabber : MonoBehaviour
                 _initialOffset = transform.InverseTransformPoint(grabbedCubePosition);
                 _isGrabbed = true;
                 
-                cube.SetTaken(true);
+                cube.SetTakenRPC(true);
                 
                 _photonView.RPC("SetIsGrab", RpcTarget.AllBuffered, _grabbedCube.GetPhotonView().ViewID, _isGrabbed, _initialOffset); 
             }
@@ -66,7 +66,7 @@ public class CubeGrabber : MonoBehaviour
 
         GameEventManager.Instance.TriggerOnPlaceCube(_grabbedCube.transform.position);
         var cube = _grabbedCube.GetComponent<Cube>();
-        cube.SetTaken(false);
+        cube.SetTakenRPC(false);
         
         _photonView.RPC("ReleaseIsGrab", RpcTarget.AllBuffered);
     }
@@ -83,8 +83,11 @@ public class CubeGrabber : MonoBehaviour
     [PunRPC]
     void ReleaseIsGrab()
     {
-        _grabbedCube.transform.position = transform.TransformPoint(_initialOffset);
-        _grabbedCube.transform.rotation = transform.rotation;
+        if (_grabbedCube)
+        {
+            _grabbedCube.transform.position = transform.TransformPoint(_initialOffset);
+            _grabbedCube.transform.rotation = transform.rotation;
+        }
         
         _grabbedCube = null;
         _isGrabbed = false;

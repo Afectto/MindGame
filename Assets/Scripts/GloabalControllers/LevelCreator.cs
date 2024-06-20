@@ -12,7 +12,9 @@ public class LevelCreator : ZoneBackgroundUpdate
     
     private bool[,] _table;
     private List<GameObject> _cubsList;
-    private PhotonView _photonView; 
+    private PhotonView _photonView;
+
+    public List<GameObject> CubsList => _cubsList;
 
     public event Action<bool[,]> onCreateLevel;
     

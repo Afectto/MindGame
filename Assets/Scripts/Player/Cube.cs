@@ -8,7 +8,7 @@ public class Cube : MonoBehaviour
     
     public bool IsTaken => _isTaken;
 
-    private void Start()
+    private void Awake()
     {
         _photonView = GetComponent<PhotonView>();
     }
@@ -16,7 +16,11 @@ public class Cube : MonoBehaviour
     [PunRPC]
     public void SetTaken(bool value)
     {
-        _photonView.RPC("SetTaken", RpcTarget.OthersBuffered, value);
         _isTaken = value;
+    }
+    
+    public void SetTakenRPC(bool value)
+    {
+        _photonView.RPC("SetTaken", RpcTarget.OthersBuffered, value);
     }
 }
